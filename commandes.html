@@ -1,0 +1,8 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Commandes reçues – Officine LH</title><link rel="stylesheet" href="css/style.css"></head><body><main id="main">
+
+<div class="card"><h3>Nouvelle commande</h3><form class="f" id="form"><label>Client<input name="client" required></label><label>Échéance<input type="date" name="due" required></label><label>Produit<select name="p" id="sp"></select></label><label>Quantité<input type="number" name="q" min="1" value="1" style="width:80px"></label><button>Ajouter</button></form></div>
+<div class="card"><h3>Commandes</h3><div id="list"></div></div></main><script src="js/data.js"></script><script src="js/app.js"></script><script>layout("Commandes reçues");
+sp=document.getElementById("sp");sp.innerHTML=DATA.products.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("");
+function render(){document.getElementById("list").innerHTML=table(["N°","Client","Reçue","Échéance","Contenu","Total","Statut"],DATA.orders.map(o=>[o.id,esc(o.client),fdate(o.date),fdate(o.due),Object.entries(o.lines).map(([i,q])=>q+" × "+byId(DATA.products,i).name).join("<br>"),eur(Object.entries(o.lines).reduce((a,[i,q])=>a+q*byId(DATA.products,i).price,0)),tag(o.status)]),[5])}
+document.getElementById("form").onsubmit=e=>{e.preventDefault();const f=e.target;DATA.orders.unshift({id:"C-"+(1045+DATA.orders.length-4),client:f.client.value,date:"2026-10-05",due:f.due.value,status:"À préparer",lines:{[f.p.value]:+f.q.value}});f.reset();render()};
+render();</script></body></html>

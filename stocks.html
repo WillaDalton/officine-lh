@@ -1,0 +1,13 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Stocks – Officine LH</title><link rel="stylesheet" href="css/style.css"></head><body><main id="main">
+<div class="card"><h3>Produits finis</h3><div id="p"></div></div><div class="card"><h3>Matières premières</h3><div id="m"></div></div>
+<div class="card"><h3>Mouvement de stock</h3><form class="f" id="form"><label>Article<select name="i" id="it"></select></label><label>Lieu<select name="l" id="lo"></select></label><label>Quantité (+/−)<input type="number" step="0.01" name="q" required></label><button>Valider</button></form></div></main><script src="js/data.js"></script><script src="js/app.js"></script><script>layout("Stocks");
+const S=DATA.storages;
+function stat(t,min){return t<min?'<span class="tag t-bad">Sous minimum</span>':t<min*1.2?'<span class="tag t-warn">Limite</span>':'<span class="tag t-ok">OK</span>'}
+function row(x,unit){return [esc(x.name),...S.map(s=>x.stock[s]),"<b>"+sum(x.stock)+"</b> "+unit,x.min,stat(sum(x.stock),x.min)]}
+function render(){const h=["Article",...S,"Total","Minimum","État"],nc=[1,2,3,4,5,6];
+document.getElementById("p").innerHTML=table(h,DATA.products.map(x=>row(x,"")),nc);
+document.getElementById("m").innerHTML=table(h,DATA.materials.map(x=>row(x,x.unit)),nc);}
+document.getElementById("it").innerHTML=DATA.products.concat(DATA.materials).map(x=>`<option value="${x.id}">${esc(x.name)}</option>`).join("");
+document.getElementById("lo").innerHTML=S.map(s=>`<option>${s}</option>`).join("");
+document.getElementById("form").onsubmit=e=>{e.preventDefault();const f=e.target,a=byId(DATA.products,f.i.value)||byId(DATA.materials,f.i.value);a.stock[f.l.value]=Math.max(0,a.stock[f.l.value]+ +f.q.value);f.reset();render()};
+render();</script></body></html>

@@ -1,0 +1,13 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Finances – Officine LH</title><link rel="stylesheet" href="css/style.css"></head><body><main id="main">
+
+<div class="grid" id="kpi"></div><div class="card" style="margin-top:16px"><h3>Nouvelle écriture</h3><form class="f" id="form"><label>Date<input type="date" name="d" required></label><label>Libellé<input name="l" required></label><label>Catégorie<select name="c"><option>Vente</option><option>Achat matière</option><option>Frais fixes</option><option>Subvention</option></select></label><label>Montant (€, négatif = dépense)<input type="number" step="0.01" name="a" required></label><button>Ajouter</button></form></div>
+<div class="card"><h3>Écritures</h3><div id="list"></div></div>
+<div class="grid"><div class="card"><h3>Factures à honorer</h3><div id="pay"></div></div><div class="card"><h3>Factures en attente de paiement</h3><div id="rec"></div></div></div></main><script src="js/data.js"></script><script src="js/app.js"></script><script>layout("Finances");
+const P=DATA.payables,R=DATA.receivables;
+function render(){const inc=sum(DATA.transactions.filter(t=>t.amount>0).map(t=>t.amount)),out=sum(DATA.transactions.filter(t=>t.amount<0).map(t=>t.amount));
+document.getElementById("kpi").innerHTML=`<div class="card"><h3>Trésorerie</h3><div class="big pos">${eur(DATA.bank)}</div></div><div class="card"><h3>Entrées / sorties récentes</h3><span class="pos">${eur(inc)}</span> / <span class="neg">${eur(out)}</span></div><div class="card"><h3>Solde prévisionnel</h3><div class="big">${eur(DATA.bank-sum(P.map(x=>x.amount))+sum(R.map(x=>x.amount)))}</div></div>`;
+document.getElementById("list").innerHTML=table(["Date","Libellé","Catégorie","Montant"],DATA.transactions.map(t=>[fdate(t.date),esc(t.label),t.cat,`<span class="${t.amount>=0?"pos":"neg"}">${eur(t.amount)}</span>`]),[3]);}
+document.getElementById("pay").innerHTML=table(["Réf.","Créancier","Échéance","Montant"],P.map(f=>[f.ref,esc(f.who),fdate(f.due),eur(f.amount)]),[3]);
+document.getElementById("rec").innerHTML=table(["Réf.","Client","Échéance","Montant"],R.map(f=>[f.ref,esc(f.who),fdate(f.due),eur(f.amount)]),[3]);
+document.getElementById("form").onsubmit=e=>{e.preventDefault();const f=e.target;DATA.transactions.unshift({date:f.d.value,label:f.l.value,cat:f.c.value,amount:+f.a.value});DATA.bank+=+f.a.value;f.reset();render()};
+render();</script></body></html>

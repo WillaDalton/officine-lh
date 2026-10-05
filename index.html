@@ -1,0 +1,16 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tableau de bord – Officine LH</title><link rel="stylesheet" href="css/style.css"></head><body><main id="main">
+</main><script src="js/data.js"></script><script src="js/app.js"></script><script>layout("Tableau de bord");
+const today=new Date("2026-10-05");
+const pp=productPlan();
+const toPrep=DATA.orders.filter(o=>o.status!=="Livrée");
+const payTotal=sum(DATA.payables.map(x=>x.amount)),recTotal=sum(DATA.receivables.map(x=>x.amount));
+const $=s=>document.getElementById(s);
+$("main").insertAdjacentHTML("beforeend",`<div class="grid">
+<div class="card"><h3>📦 Ventes à préparer</h3>${table(["N°","Client","Échéance","Statut"],toPrep.map(o=>[o.id,esc(o.client),fdate(o.due),tag(o.status)]))}</div>
+<div class="card"><h3>🛒 Commandes de matière en cours</h3>${table(["N°","Fournisseur","Contenu"],DATA.purchases.filter(a=>a.status==="En cours").map(a=>[a.id,esc(a.supplier),a.lines.map(([i,q])=>q+" "+byId(DATA.materials,i).unit+" "+byId(DATA.materials,i).name).join(", ")]))}<p><a href="achats.html">Voir l'aide à la décision →</a></p></div>
+<div class="card"><h3>💶 État des finances</h3><div class="big ${DATA.bank>=0?"pos":"neg"}">${eur(DATA.bank)}</div><p>À payer : <b class="neg">${eur(payTotal)}</b><br>À encaisser : <b class="pos">${eur(recTotal)}</b><br>Solde prévisionnel : <b>${eur(DATA.bank-payTotal+recTotal)}</b></p></div>
+<div class="card"><h3>📝 Notes internes</h3>${DATA.notes.map(n=>`<div class="note"><small>${fdate(n.date)} – ${esc(n.author)}</small><br>${esc(n.text)}</div>`).join("")}</div>
+<div class="card"><h3>🧾 Factures à honorer</h3>${table(["Réf.","Créancier","Échéance","Montant"],DATA.payables.map(f=>[f.ref,esc(f.who),fdate(f.due),eur(f.amount)]),[3])}</div>
+<div class="card"><h3>⏳ Factures en attente de paiement (tiers)</h3>${table(["Réf.","Client","Échéance","Montant"],DATA.receivables.map(f=>[f.ref,esc(f.who),fdate(f.due)+(f.due<"2026-10-05"?' <span class="tag t-bad">en retard</span>':""),eur(f.amount)]),[3])}</div>
+<div class="card"><h3>👥 Présence aujourd'hui (05/10) et demain (06/10)</h3>${table(["Nom","Rôle","Aujourd'hui","Demain"],DATA.staff.map(s=>[esc(s.name),s.role,s.today,s.tomorrow]))}</div>
+</div>`);</script></body></html>
