@@ -23,7 +23,6 @@ const DATA={
   {id:"A-310",supplier:"Rucher des Collines",date:"2026-10-02",status:"En cours",lines:[["M6",10]]},
   {id:"A-311",supplier:"Moulin Provence",date:"2026-10-03",status:"En cours",lines:[["M2",20]]},
   {id:"A-305",supplier:"Verrerie Martin",date:"2026-09-20",status:"Reçue",lines:[["M4",300]]}],
- suppliers:["Rucher des Collines","Moulin Provence","Verrerie Martin","Herboristerie du Sud","Chimie Pro"],
  bank:12480.35,
  payables:[ // factures à honorer
   {ref:"F-A-8812",who:"Moulin Provence",amount:180,due:"2026-10-10"},
@@ -49,9 +48,26 @@ const DATA={
  notes:[
   {date:"2026-10-04",author:"Léa",text:"Penser à commander des étiquettes avant le marché de Noël."},
   {date:"2026-10-03",author:"Hugo",text:"Alambic en révision jeudi, pas de distillation ce jour-là."}],
+ grades:["Gérant","Responsable","Préparateur","Vendeur","Apprenti"],
  staff:[
-  {name:"Léa Martin",role:"Préparation",today:"08:00–16:00",tomorrow:"08:00–12:00"},
-  {name:"Hugo Petit",role:"Distillation",today:"09:00–17:00",tomorrow:"—"},
-  {name:"Sara Benali",role:"Boutique",today:"—",tomorrow:"10:00–18:00"},
-  {name:"Willa Dalton",role:"Gestion",today:"10:00–15:00",tomorrow:"10:00–15:00"}]
+  {id:"E1",name:"Léa Martin",role:"Préparation",grade:"Préparateur"},
+  {id:"E2",name:"Hugo Petit",role:"Distillation",grade:"Responsable"},
+  {id:"E3",name:"Sara Benali",role:"Boutique",grade:"Vendeur"},
+  {id:"E4",name:"Willa Dalton",role:"Gestion",grade:"Gérant"},
+  {id:"E5",name:"Tom Roux",role:"Préparation",grade:"Apprenti"}],
+ // disponibilités : heures approximatives de présence par jour
+ availability:[
+  {staff:"E1",date:"2026-10-05",from:"08:00",to:"16:00"},{staff:"E1",date:"2026-10-06",from:"08:00",to:"12:00"},
+  {staff:"E2",date:"2026-10-05",from:"09:00",to:"17:00"},
+  {staff:"E3",date:"2026-10-06",from:"10:00",to:"18:00"},
+  {staff:"E4",date:"2026-10-05",from:"10:00",to:"15:00"},{staff:"E4",date:"2026-10-06",from:"10:00",to:"15:00"},
+  {staff:"E5",date:"2026-10-07",from:"14:00",to:"18:00"}],
+ companies:[
+  {id:"K1",name:"Pharmacie du Centre",type:"Client",contact:"contact@pharmacie-centre.example"},
+  {id:"K2",name:"Marché de Noël – Lyon",type:"Client",contact:"04 00 00 00 01"},
+  {id:"K3",name:"Biocoop Vert",type:"Client",contact:"achats@biocoop.example"},
+  {id:"K4",name:"Rucher des Collines",type:"Fournisseur",contact:"04 00 00 00 02"},
+  {id:"K5",name:"Moulin Provence",type:"Fournisseur",contact:"moulin@provence.example"},
+  {id:"K6",name:"Verrerie Martin",type:"Fournisseur",contact:"04 00 00 00 03"},
+  {id:"K7",name:"Herboristerie du Sud",type:"Client / Fournisseur",contact:"04 00 00 00 04"}]
 };

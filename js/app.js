@@ -1,4 +1,4 @@
-const PAGES=[["index.html","Tableau de bord"],["commandes.html","Commandes reçues"],["achats.html","Achats"],["finances.html","Finances"],["subventions.html","Subventions"],["notes.html","Notes internes"],["stocks.html","Stocks"]];
+const PAGES=[["index.html","Tableau de bord"],["commandes.html","Commandes reçues"],["achats.html","Achats"],["finances.html","Finances"],["subventions.html","Subventions"],["notes.html","Notes internes"],["stocks.html","Stocks"],["employes.html","Employés"],["disponibilites.html","Disponibilités"],["parametres.html","Paramétrage"]];
 const eur=n=>n.toLocaleString("fr-FR",{style:"currency",currency:"EUR"});
 const fdate=d=>d.split("-").reverse().join("/");
 const sum=o=>Object.values(o).reduce((a,b)=>a+b,0);
@@ -31,3 +31,6 @@ function materialPlan(){
     return {m,need,stock,toBuy,cost:toBuy*m.price};
   });
 }
+const suppliers=()=>DATA.companies.filter(c=>c.type.includes("Fournisseur")).map(c=>c.name);
+const staffName=id=>(byId(DATA.staff,id)||{name:"?"}).name;
+const dow=d=>["dim","lun","mar","mer","jeu","ven","sam"][new Date(d+"T12:00:00").getDay()];

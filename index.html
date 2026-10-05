@@ -12,5 +12,5 @@ $("main").insertAdjacentHTML("beforeend",`<div class="grid">
 <div class="card"><h3>📝 Notes internes</h3>${DATA.notes.map(n=>`<div class="note"><small>${fdate(n.date)} – ${esc(n.author)}</small><br>${esc(n.text)}</div>`).join("")}</div>
 <div class="card"><h3>🧾 Factures à honorer</h3>${table(["Réf.","Créancier","Échéance","Montant"],DATA.payables.map(f=>[f.ref,esc(f.who),fdate(f.due),eur(f.amount)]),[3])}</div>
 <div class="card"><h3>⏳ Factures en attente de paiement (tiers)</h3>${table(["Réf.","Client","Échéance","Montant"],DATA.receivables.map(f=>[f.ref,esc(f.who),fdate(f.due)+(f.due<"2026-10-05"?' <span class="tag t-bad">en retard</span>':""),eur(f.amount)]),[3])}</div>
-<div class="card"><h3>👥 Présence aujourd'hui (05/10) et demain (06/10)</h3>${table(["Nom","Rôle","Aujourd'hui","Demain"],DATA.staff.map(s=>[esc(s.name),s.role,s.today,s.tomorrow]))}</div>
+<div class="card"><h3>👥 Présence aujourd'hui (05/10) et demain (06/10)</h3>${table(["Nom","Grade","Aujourd'hui","Demain"],DATA.staff.map(s=>{const h=d=>{const a=DATA.availability.filter(v=>v.staff===s.id&&v.date===d);return a.length?a.map(v=>v.from+"–"+v.to).join(", "):"—"};return [esc(s.name),esc(s.grade),h("2026-10-05"),h("2026-10-06")]}))}<p><a href="disponibilites.html">Gérer les disponibilités →</a></p></div>
 </div>`);</script></body></html>
