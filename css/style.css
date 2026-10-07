@@ -1,0 +1,19 @@
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,sans-serif;background:#f4f1ea;color:#2b2b2b;display:flex;min-height:100vh}
+nav{width:210px;background:#2f4a3a;color:#fff;padding:16px;flex-shrink:0}nav h1{font-size:18px;margin:0 0 16px}
+nav a{display:block;color:#dfe9e2;text-decoration:none;padding:8px 10px;border-radius:6px;margin-bottom:2px}nav a:hover,nav a.on{background:#4a6b57;color:#fff}
+nav small{display:block;margin-top:20px;opacity:.7}
+main{flex:1;padding:24px;min-width:0}h2{margin-top:0}h3{margin:0 0 10px;font-size:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+.card{background:#fff;border-radius:10px;padding:16px;box-shadow:0 1px 3px #0002;margin-bottom:16px}.grid .card{margin:0}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:6px 8px;border-bottom:1px solid #e5e0d5;text-align:left}th{background:#f4f1ea}
+td.n,th.n{text-align:right}
+.big{font-size:28px;font-weight:700}.pos{color:#1b7a3a}.neg{color:#b3261e}
+.tag{padding:2px 8px;border-radius:10px;font-size:12px;background:#ddd}.t-ok{background:#d4efdc}.t-warn{background:#fde8c4}.t-bad{background:#f8d0cc}.t-info{background:#d3e4f7}
+form.f{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;align-items:end}form.f label{display:flex;flex-direction:column;font-size:12px;gap:2px}
+input,select,textarea,button{font:inherit;padding:6px 8px;border:1px solid #bbb;border-radius:6px}
+button{background:#2f4a3a;color:#fff;border:0;cursor:pointer}button.sec{background:#888}
+.bar{background:#e5e0d5;border-radius:6px;height:12px;overflow:hidden}.bar i{display:block;height:100%;background:#4a6b57}
+.note{background:#fff8d6;padding:10px;border-radius:6px;margin-bottom:8px}
+.banner{background:#fde8c4;padding:8px 12px;border-radius:6px;margin-bottom:16px;font-size:13px}
+@media(max-width:700px){body{flex-direction:column}nav{width:auto}}
+.tabs{display:flex;gap:4px;margin-bottom:12px;flex-wrap:wrap}.tabs button{background:#e5e0d5;color:#2b2b2b;border-radius:6px 6px 0 0}.tabs button.on{background:#2f4a3a;color:#fff}[hidden]{display:none!important}

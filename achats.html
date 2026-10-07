@@ -1,0 +1,15 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Achats de l'officine – Officine LH</title><link rel="stylesheet" href="css/style.css"></head><body><main id="main">
+
+<div class="card"><h3>🧮 Aide à la décision : matières à acheter</h3><p>Calcul = matières nécessaires pour fabriquer les produits manquants (commandes ouvertes + stock minimum produit) + stock minimum matière − stock actuel − commandes fournisseurs en cours.</p><div id="plan"></div><p><button id="prefill">Pré-remplir les achats à partir du calcul</button></p></div>
+<div class="card"><h3>Saisie d'un achat</h3><form class="f" id="form"><label>Fournisseur<select name="s" id="sup"></select></label><span id="lines"></span><button type="button" class="sec" id="add">+ Ligne</button><button>Enregistrer</button></form></div>
+<div class="card"><h3>Achats</h3><div id="list"></div></div></main><script src="js/data.js"></script><script src="js/app.js"></script><script>layout("Achats de l'officine");
+const mp=materialPlan(),pl=productPlan();
+document.getElementById("plan").innerHTML="<h4>Produits à fabriquer</h4>"+table(["Produit","Commandé","Stock","Minimum","À fabriquer"],pl.map(x=>[esc(x.p.name),x.ordered,x.stock,x.p.min,"<b>"+x.toMake+"</b>"]),[1,2,3,4])+"<h4>Matières</h4>"+table(["Matière","Besoin fabrication","Stock","Minimum","Déjà commandé","À acheter","Coût estimé"],mp.map(x=>[esc(x.m.name),x.need.toFixed(2),x.stock,x.m.min,x.m.ordered,x.toBuy>0?`<span class="tag t-bad">${x.toBuy} ${x.m.unit}</span>`:'<span class="tag t-ok">OK</span>',eur(x.cost)]),[1,2,3,4,6])+`<p>Total estimé : <b>${eur(sum(mp.map(x=>x.cost)))}</b></p>`;
+document.getElementById("sup").innerHTML=suppliers().map(s=>`<option>${esc(s)}</option>`).join("");
+const matOpts=DATA.materials.map(m=>`<option value="${m.id}">${esc(m.name)} (${m.unit})</option>`).join("");
+function addLine(id,q){const d=document.createElement("div");d.innerHTML=`<label>Matière<select>${matOpts}</select></label> <label>Qté<input type="number" step="0.01" min="0" value="${q||1}" style="width:90px"></label>`;if(id)d.querySelector("select").value=id;document.getElementById("lines").appendChild(d)}
+document.getElementById("add").onclick=()=>addLine();addLine();
+document.getElementById("prefill").onclick=()=>{document.getElementById("lines").innerHTML="";mp.filter(x=>x.toBuy>0).forEach(x=>addLine(x.m.id,x.toBuy));document.getElementById("form").scrollIntoView()};
+function render(){document.getElementById("list").innerHTML=table(["N°","Fournisseur","Date","Contenu","Statut"],DATA.purchases.map(a=>[a.id,esc(a.supplier),fdate(a.date),a.lines.map(([i,q])=>q+" "+byId(DATA.materials,i).unit+" "+byId(DATA.materials,i).name).join("<br>"),tag(a.status)]))}
+document.getElementById("form").onsubmit=e=>{e.preventDefault();const ls=[...document.querySelectorAll("#lines div")].map(d=>[d.querySelector("select").value,+d.querySelector("input").value]).filter(l=>l[1]>0);DATA.purchases.unshift({id:"A-"+(312+DATA.purchases.length-3),supplier:e.target.s.value,date:"2026-10-05",status:"En cours",lines:ls});render()};
+render();</script></body></html>

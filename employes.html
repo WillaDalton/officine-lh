@@ -1,0 +1,5 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Employés – Officine LH</title><link rel="stylesheet" href="css/style.css"></head><body><main id="main">
+<div class="card"><h3>Nouvel employé</h3><form class="f" id="form"><label>Nom<input name="n" required></label><label>Fonction<input name="r" required></label><label>Grade<select name="g" id="gr"></select></label><button>Ajouter</button></form></div><div class="card"><h3>Liste des employés</h3><div id="list"></div></div></main><script src="js/data.js"></script><script src="js/app.js"></script><script>layout("Employés");
+document.getElementById("gr").innerHTML=DATA.grades.map(g=>`<option>${esc(g)}</option>`).join("");
+function render(){document.getElementById("list").innerHTML=table(["Nom","Fonction","Grade"],DATA.staff.map(s=>[esc(s.name),esc(s.role),`<span class="tag t-info">${esc(s.grade)}</span>`]))}
+document.getElementById("form").onsubmit=e=>{e.preventDefault();const f=e.target;DATA.staff.push({id:"E"+(DATA.staff.length+1),name:f.n.value,role:f.r.value,grade:f.g.value});f.reset();render()};render();</script></body></html>
