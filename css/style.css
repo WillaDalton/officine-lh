@@ -16,3 +16,4 @@ button{background:#2f4a3a;color:#fff;border:0;cursor:pointer}button.sec{backgrou
 .note{background:#fff8d6;padding:10px;border-radius:6px;margin-bottom:8px}
 .banner{background:#fde8c4;padding:8px 12px;border-radius:6px;margin-bottom:16px;font-size:13px}
 @media(max-width:700px){body{flex-direction:column}nav{width:auto}}
+.tabs{display:flex;gap:4px;margin-bottom:12px;flex-wrap:wrap}.tabs button{background:#e5e0d5;color:#2b2b2b;border-radius:6px 6px 0 0}.tabs button.on{background:#2f4a3a;color:#fff}[hidden]{display:none!important}
